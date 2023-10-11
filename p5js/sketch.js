@@ -5,7 +5,7 @@ class Ball{
   constructor(){
     this.x = random(0,windowWidth);
     this.y = random(0,windowHeight);
-    this.d = random(30,120);
+    this.d = random(50,200);
     this.vX = random(-0.5,0.5);
     this.vY = random(-0.5,0.5);
   }
@@ -37,12 +37,12 @@ class Ball{
 }
 
 function setup() {
-  const canvas = createCanvas(windowWidth,windowHeight);
-  canvas.id('fons');
-  for(let i=0; i<20;i++){
+  createCanvas(windowWidth,windowHeight);
+  const amount = sqrt(windowWidth * windowHeight) / 20; // mazāk bumbas uz mazākiem ekrāniem
+  for(let i=0; i<amount;i++){
     balls.push(new Ball());
   }
-  c = color(252, 244, 217);
+  c = color(197, 252, 247);
 }
 
 function draw() {

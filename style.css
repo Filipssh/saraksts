@@ -62,3 +62,21 @@ iframe, #fons{
     height: 100vh;
     overflow:hidden;
 }
+#fons{
+    position: relative;
+}
+#sakums{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+#fons, #sakums{
+    display: grid;
+    place-items: center;
+}
+#call-to-action{
+    display: grid;
+    justify-items: center;
+    gap:3em;
+}

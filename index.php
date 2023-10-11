@@ -13,12 +13,13 @@
     <?php include "modules/nav.php"; ?>
     <div id="fons">
         <iframe src="p5js/index.html" frameborder="0" scrolling="no"></iframe>
-    </div>
-    
-    <div class="container mt-4">
-        <h1> TODO Saraksti </h1>
-        <h2> </h2>
-    </div>
 
+        <div id="sakums" class="container mt-4">
+            <div id="call-to-action">
+                <h1>Izveido sarakstu jau tagad!</h1>
+                <a href="register.php" class="btn btn-primary">Reģistrēties</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
