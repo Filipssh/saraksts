@@ -68,7 +68,7 @@
     ?>
     <li class="list-group-item d-flex justify-content-between align-items-center" data-id="<?php echo $ieraksts->id?>">
         <span class="me-auto <?php echo $klase; ?>"><?php echo htmlspecialchars($ieraksts->teksts); ?></span>
-        <button class="btn me-2 btn-outline-primary" data-id="<?php echo $ieraksts->id?>">rediģēt</button>
+        <button class="btn me-2 btn-outline-primary" data-id="<?php echo $ieraksts->id?>" data-bs-toggle="modal" data-bs-target="#exampleModal">rediģēt</button>
         <button class="btn btn-outline-danger" data-id="<?php echo $ieraksts->id?>">X</button>
     </li>
     <?php endwhile; ?>
@@ -113,7 +113,35 @@
                                 "justify-content-between",
                                 "align-items-center"
                             );
-                            li.innerHTML = '<span class="me-auto"> '+ teksts.value +' </span><button class="btn me-2 btn-outline-primary" data-id="' + data.id + '">rediģēt</button><button class="btn btn-outline-danger" data-id="' + data.id + '">X</button>';
+                            // ieraksta teksts
+                            let span = document.createElement('span');
+                            span.classList.add("me-auto");
+                            span.innerText = teksts.value;
+                            li.appendChild(span);
+
+                            // poga "rediģēt"
+                            let button = document.createElement('button');
+                            button.classList.add(
+                                "btn",
+                                "me-2",
+                                "btn-outline-primary"
+                            );
+                            button.setAttribute('data-id', data.id);
+                            button.setAttribute('data-bs-toggle', "modal");
+                            button.setAttribute('data-bs-target', "#exampleModal");
+                            button.innerText = "rediģēt";
+                            li.appendChild(button);
+
+                            // poga "dzēst"
+                            let button2 = document.createElement('button');
+                            button2.classList.add(
+                                "btn",
+                                "btn-outline-danger"
+                            );
+                            button2.setAttribute('data-id', data.id);
+                            button2.innerText = "X";
+                            li.appendChild(button2);
+
                             li.setAttribute('data-id', data.id);
                             teksts.value = '';
 
@@ -181,17 +209,9 @@
             $(document).on('click','#taskList li .btn-outline-primary', function(){
                 const teksts = $(this).siblings("span").text();
                 const id = $(this).attr('data-id');
-                $(this).attr('disabled',true);// neļaujam lietotājam klikšķināt uz "rediģēt" atkārtoti
 
-                $(this).siblings("span").html('<div class="input-group"><input type="text" class="form-control" value="'+ teksts +'"><button class="btn btn-primary" data-id="'+ id +'">Saglabāt</button></div>');
-
-            });
-
-            /*
-             * Izsvītrošanas funkcionalitātes atcelšana elementiem dziļāk par <span> elementu
-             */
-            $(document).on('click','#taskList li span * ', function( event ){
-                event.stopPropagation();
+                $('#input-edit').val(teksts);
+                $('#input-edit').attr('data-id',id);
             });
 
             /*
@@ -199,31 +219,60 @@
              * Nododam serverim tekstu, kuru ievadīja lietotājs, ieraksta id un saraksta id
              * Sagaidot atbildi no servera, aizvietojam input lauku ar jauno tekstu
              */
-            $(document).on('click','#taskList li span .btn-primary', function(){
-                const text = $(this).siblings("input").val();
-                const ievade = $(this);
-                
-                $.ajax({
-                    type:'POST',
-                    url: 'db/list_item/update.php',
-                    data: {
-                        ieraksts_id: ievade.attr('data-id'),
-                        saraksts_id: saraksts_id,
-                        text: text,
-                    },
-                    dataType: 'json',
-                    encode: true,
-                }).done(function (data) {
-                    console.log(data);
+            document.addEventListener('DOMContentLoaded', function(){
+                $('#save-edit').click(function(){
+                    console.log("saglabāt!");
+                    const text = $('#input-edit').val();
+                    const id = $('#input-edit').attr('data-id');
 
-                    // atgriežam pogai "rediģēt" iespēju tikt klikšķinātai
-                    ievade.parents('li').children('.btn-outline-primary').attr('disabled', false);
-                    
-                    ievade.parents('span').text(data.text);
+                    $.ajax({
+                        type:'POST',
+                        url: 'db/list_item/update.php',
+                        data: {
+                            ieraksts_id: id,
+                            saraksts_id: saraksts_id,
+                            text: text,
+                        },
+                        dataType: 'json',
+                        encode: true,
+                    }).done(function (data) {
+                        console.log(data);
+                        
+                        $('#taskList li[data-id='+ id +'] span').text(data.text);
+
+                    });
                 });
             });
+            
 
         </script>
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+        </button> -->
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Rediģēt ierakstu</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="input-edit">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Atcelt</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save-edit">Saglabāt</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
     <?php endif; ?>
 
 </body>
