@@ -3,7 +3,7 @@
     require_once "db/connection.php";
 
     if(isset($_SESSION['username'])){
-        header("Location: home.php");
+        header("Location: home");
     }
     if(isset($_POST['login'])){
         # atrodam lietotāju
@@ -29,7 +29,7 @@
                 $_SESSION['phone'] = $lietotajs->tel_nr;
                 $_SESSION['role'] = $lietotajs->loma;
 
-                header('Location: home.php');
+                header('Location: home');
             }else{
                 # nepareiza parole
                 $error = 'Nepareizs lietotājvārds un/vai parole!';
@@ -45,11 +45,12 @@
     <title>Autorizēties</title>
     <!-- Add Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a href="index.php" class="navbar-brand">Sākums</a>
+        <a href="index" class="navbar-brand">Sākums</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -82,7 +83,7 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <button type="submit" class="btn btn-primary" name="login">Autorizēties</button>
-                            <a class="btn btn-secondary" href="register.php">Reģistrēties</a>
+                            <a class="btn btn-secondary" href="register">Reģistrēties</a>
                         </form>
                     </div>
                 </div>
