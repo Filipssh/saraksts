@@ -14,7 +14,7 @@
                     <a href="home" class="nav-link">saraksti</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">profils</a>
+                    <a href="user" class="nav-link">profils</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
