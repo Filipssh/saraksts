@@ -3,7 +3,32 @@
     require_once "db/connection.php";
     // Pārbaudam, vai lietotājs ir autorizējies
     if(!isset($_SESSION['username'])){
-        header("Location: login.php");
+        header("Location: login");
+    }
+
+    if(isset($_POST['delete'])){
+        $query = $datubaze->prepare('
+        SELECT *
+        FROM saraksts
+        WHERE id = ?
+        ');
+        $query->bind_param('i',$_POST['id']);
+        $query->execute();
+        $result = $query->get_result();
+        $saraksts = $result->fetch_object();
+
+        if($saraksts->lietotajvards == $_SESSION['username']){
+            $query = $datubaze->prepare("
+                DELETE FROM ieraksts WHERE saraksts_id = ?
+            ");
+            $query->bind_param('i', $_POST['id']);
+            $query->execute();
+            $query = $datubaze->prepare("
+                DELETE FROM saraksts WHERE id = ?
+            ");
+            $query->bind_param('i', $_POST['id']);
+            $query->execute();
+        }
     }
 
 ?>
@@ -14,6 +39,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mani saraksti</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
     <!-- Navigācija -->
@@ -62,7 +88,17 @@
                         ?>
                     </p>
                     <!-- Pārvirzām uz saraksta lapu, nododot saraksta id kā GET parametru -->
-                    <a href="list.php?id=<?php echo  htmlspecialchars($saraksts->id) ?>" class="btn btn-primary">Apskatīt</a>
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="list?id=<?php echo  htmlspecialchars($saraksts->id) ?>" class="btn btn-primary">Apskatīt</a>
+                        </div>
+                        <div class="col-6">
+                            <form action="" method="POST">
+                                <input type="text" name="id" style="display:none" value="<?php echo  htmlspecialchars($saraksts->id) ?>">
+                                <button type="submit" name="delete" class="btn btn-outline-danger">Dzēst</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 </div>
             </div>
@@ -72,7 +108,7 @@
         </div>
 
         <div class="fixed-bottom m-3 d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-primary me-md-2" href="create_list.php" >+Jauns saraksts</a>
+            <a class="btn btn-primary me-md-2" href="create_list" >+Jauns saraksts</a>
         </div>
     </div>
 </body>
