@@ -4,4 +4,5 @@ Salīdzinājumi, ko katrā datumā esam izdarījuši, lai redzētu, kas ir main�
 4.okt   https://github.com/Filipssh/saraksts/compare/95a16b6...6575d01
 7.okt   https://github.com/Filipssh/saraksts/compare/6575d01...577bca4
 9.okt   https://github.com/Filipssh/saraksts/compare/577bca4...cc7d1d6
-11.okt  https://github.com/Filipssh/saraksts/compare/cc7d1d6...main
+11.okt  https://github.com/Filipssh/saraksts/compare/cc7d1d6...2879690
+14.okt  https://github.com/Filipssh/saraksts/compare/2879690...main
