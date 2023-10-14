@@ -16,6 +16,11 @@
                 <li class="nav-item">
                     <a href="user" class="nav-link">profils</a>
                 </li>
+                <?php if(isset($_SESSION['role']) && $_SESSION['role'] == 'admin'):?>
+                    <li class="nav-item">
+                        <a href="admin/home" class="nav-link">admin</a>
+                    </li>
+                <?php endif; ?>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">

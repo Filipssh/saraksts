@@ -3,7 +3,10 @@
     require_once "db/connection.php";
     // Pārbaudam, vai lietotājs ir autorizējies
     if(!isset($_SESSION['username'])){
-        header("Location: login");
+        header("Location: ../login");
+    }
+    if($_SESSION['role'] != 'admin'){
+        header("Location: ../login");
     }
 
     if(isset($_POST['delete'])){
@@ -17,18 +20,17 @@
         $result = $query->get_result();
         $saraksts = $result->fetch_object();
 
-        if($saraksts->lietotajvards == $_SESSION['username']){
-            $query = $datubaze->prepare("
-                DELETE FROM ieraksts WHERE saraksts_id = ?
-            ");
-            $query->bind_param('i', $_POST['id']);
-            $query->execute();
-            $query = $datubaze->prepare("
-                DELETE FROM saraksts WHERE id = ?
-            ");
-            $query->bind_param('i', $_POST['id']);
-            $query->execute();
-        }
+        $query = $datubaze->prepare("
+            DELETE FROM ieraksts WHERE saraksts_id = ?
+        ");
+        $query->bind_param('i', $_POST['id']);
+        $query->execute();
+        $query = $datubaze->prepare("
+            DELETE FROM saraksts WHERE id = ?
+        ");
+        $query->bind_param('i', $_POST['id']);
+        $query->execute();
+        
     }
 
 ?>
@@ -49,14 +51,11 @@
         <div class="row">
             <?php 
                 // Atrodam visus lietotāja sarakstus
-                $query = $datubaze->prepare('
+                $saraksti = $datubaze->query('
                     SELECT *
                     FROM saraksts
-                    WHERE lietotajvards = ?
+                    ORDER BY lietotajvards
                 ');
-                $query->bind_param('s', $_SESSION['username']);
-                $query->execute();
-                $saraksti = $query->get_result();
 
                 // Sagatavojam vaicājumu lai atlasītu pirmos piecus ierakstus no saraksta
                 $query2 = $datubaze->prepare('
@@ -72,6 +71,9 @@
                 <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo htmlspecialchars($saraksts->nosaukums); ?></h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        <?php echo htmlspecialchars($saraksts->lietotajvards); ?>
+                    </h6>
                     <p class="card-text">
                         <?php 
                             // iegūstam konkrētā saraksta ierakstus, izmantojot iepriekš sagatavoto vaicājumu
@@ -108,7 +110,7 @@
         </div>
 
         <div class="fixed-bottom m-3 d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-primary me-md-2" href="create_list" >+Jauns saraksts</a>
+            <a class="btn btn-primary me-md-2" href="../create_list" >+Jauns saraksts</a>
         </div>
     </div>
 </body>
