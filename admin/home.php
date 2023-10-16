@@ -42,15 +42,35 @@
     <title>Mani saraksti</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <!-- Navigācija -->
     <?php include "modules/nav.php"; ?>
 
     <div class="container mt-4">
+
+        <form action="" id="filter" method="POST">
+            <label class="form-label" for="filter-select">Filtrs</label>
+            <select class="form-select" name="filter-select" id="filter-select">
+                <option selected>Visi lietotāji</option>
+                <?php 
+                    $result = $datubaze->query("
+                        SELECT lietotajvards
+                        FROM lietotajs
+                    ");
+                    while($lietotajs = $result->fetch_object()){
+                        echo "<option value='$lietotajs->lietotajvards'>$lietotajs->lietotajvards</option>";
+                    }
+                ?>
+            </select>
+            <button type="submit" class="btn btn-outline-primary" name="filter-submit">Filtrēt</button>
+        </form>
+
         <div class="row">
             <?php 
                 // Atrodam visus lietotāja sarakstus
+                // TODO: atlasīt konkrētu lietotāju
                 $saraksti = $datubaze->query('
                     SELECT *
                     FROM saraksts

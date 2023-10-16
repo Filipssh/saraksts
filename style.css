@@ -80,3 +80,12 @@ iframe, #fons{
     justify-items: center;
     gap:3em;
 }
+
+#filter{
+    display:flex;
+    gap:1em;
+    margin-bottom: 1em;
+}
+#filter select{
+    max-width: fit-content;
+}

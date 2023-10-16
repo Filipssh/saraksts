@@ -170,7 +170,7 @@
                     type:'POST',
                     url: 'db/list_item/toggle.php',
                     data: {
-                        ieraksts_id: $(this).attr('data-id'),
+                        ieraksts_id: $(this).parent().attr('data-id'),
                         saraksts_id: saraksts_id,
                     },
                     dataType: 'json',

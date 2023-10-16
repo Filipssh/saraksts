@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once '../../../../../private/connection.php';
+require_once '../../../../../private/connection.php';
 
 // Atgriežamā vērtība (asociatīvs masīvs)
 $message = [];

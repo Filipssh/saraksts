@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once '../../../../../private/connection.php';
+require_once '../../../../../private/connection.php';
 
 // Atgriežamā vērtība (asociatīvs masīvs)
 $message = [];
@@ -30,6 +30,7 @@ if( empty($_POST['saraksts_id']) || $result->num_rows == 0){
     $query->bind_param('ii', $_POST['ieraksts_id'], $_POST['saraksts_id']);
     $query->execute();
     $message['response'] = '200'; // OK
+    $message['db_error'] = $datubaze->error;
 }
 
 // Atgriežam vērtību kā JSON tekstu, lai to varētu nolasīt ar JavaScript
