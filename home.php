@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    require_once "db/connection.php";
+    require_once "../../../private/connection.php";
     // Pārbaudam, vai lietotājs ir autorizējies
     if(!isset($_SESSION['username'])){
         header("Location: login");

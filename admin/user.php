@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once "db/connection.php";
+    require_once "../../../../private/connection.php";
 
     if(empty($_SESSION['username'])){
         header('Location: login');
