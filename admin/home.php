@@ -53,14 +53,15 @@
         <form action="" id="filter" method="POST">
             <label class="form-label" for="filter-select">Filtrs</label>
             <select class="form-select" name="filter-select" id="filter-select">
-                <option selected>Visi lietotāji</option>
+                <option value="" selected>Visi lietotāji</option>
                 <?php 
                     $result = $datubaze->query("
                         SELECT lietotajvards
                         FROM lietotajs
                     ");
                     while($lietotajs = $result->fetch_object()){
-                        echo "<option value='$lietotajs->lietotajvards'>$lietotajs->lietotajvards</option>";
+                        $l_vards = htmlspecialchars($lietotajs->lietotajvards);
+                        echo "<option value='$l_vards'>$l_vards</option>";
                     }
                 ?>
             </select>
@@ -70,12 +71,21 @@
         <div class="row">
             <?php 
                 // Atrodam visus lietotāja sarakstus
-                // TODO: atlasīt konkrētu lietotāju
-                $saraksti = $datubaze->query('
+                if(empty($_POST['filter-select']) || $_POST['filter-select'] == ''){
+                    $lietotajvards = null;
+                }else{
+                    $lietotajvards = $_POST['filter-select'];
+                }
+
+                $query = $datubaze->prepare('
                     SELECT *
                     FROM saraksts
+                    WHERE lietotajvards = ? OR ? IS NULL
                     ORDER BY lietotajvards
                 ');
+                $query->bind_param('ss', $lietotajvards, $lietotajvards);
+                $query->execute();
+                $saraksti = $query->get_result();
 
                 // Sagatavojam vaicājumu lai atlasītu pirmos piecus ierakstus no saraksta
                 $query2 = $datubaze->prepare('
