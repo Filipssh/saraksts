@@ -5,6 +5,9 @@
     if(empty($_SESSION['username'])){
         header("Location: login");
     }
+    if($_SESSION['role'] != 'admin'){
+        header("Location: ../login");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,12 +45,15 @@
         // ja saraksts neeksistē vai lietotājs nav saraksta īpašnieks, tad izvadam atbilstošu ziņojumu
         if( empty($_GET['id']) || $result->num_rows == 0):
             include "modules/not_found.php";
-        elseif( $_SESSION['username'] != $saraksts->lietotajvards):
-            include "modules/forbidden.php";
         else:  
     ?>
         <div class="container mt-5">
-            <h1 class="text-center"><?php echo htmlspecialchars($saraksts->nosaukums) ?></h1>
+            <h1 class="text-center">
+                <span id="nosaukums"><?php echo htmlspecialchars($saraksts->nosaukums) ?></span>
+                <button id="edit-nosaukums" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img src="../edit.png">
+                </button>
+            </h1>
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="input-group mb-3">
@@ -213,6 +219,14 @@
 
                 $('#input-edit').val(teksts);
                 $('#input-edit').attr('data-id',id);
+                $('#input-edit').attr('data-nosaukums', 0);
+            });
+
+            $(document).on('click','#edit-nosaukums', function(){
+                const teksts = $("#nosaukums").text();
+
+                $('#input-edit').val(teksts);
+                $('#input-edit').attr('data-nosaukums', 1);
             });
 
             /*
@@ -222,26 +236,45 @@
              */
             document.addEventListener('DOMContentLoaded', function(){
                 $('#save-edit').click(function(){
-                    console.log("saglabāt!");
-                    const text = $('#input-edit').val();
-                    const id = $('#input-edit').attr('data-id');
+                    if($('#input-edit').attr('data-nosaukums') == true){
+                        // nosaukuma rediģēšana
+                        const text = $('#input-edit').val();
+                        $.ajax({
+                            type:'POST',
+                            url: 'db/list/update.php',
+                            data: {
+                                saraksts_id: saraksts_id,
+                                text: text,
+                            },
+                            dataType: 'json',
+                            encode: true,
+                        }).done(function (data) {
+                            console.log(data);
+                            
+                            $("#nosaukums").text(data.text);
+                        });
+                    }else{
+                        // ieraksta rediģēšana
+                        const text = $('#input-edit').val();
+                        const id = $('#input-edit').attr('data-id');
 
-                    $.ajax({
-                        type:'POST',
-                        url: 'db/list_item/update.php',
-                        data: {
-                            ieraksts_id: id,
-                            saraksts_id: saraksts_id,
-                            text: text,
-                        },
-                        dataType: 'json',
-                        encode: true,
-                    }).done(function (data) {
-                        console.log(data);
-                        
-                        $('#taskList li[data-id='+ id +'] span').text(data.text);
+                        $.ajax({
+                            type:'POST',
+                            url: 'db/list_item/update.php',
+                            data: {
+                                ieraksts_id: id,
+                                saraksts_id: saraksts_id,
+                                text: text,
+                            },
+                            dataType: 'json',
+                            encode: true,
+                        }).done(function (data) {
+                            console.log(data);
+                            
+                            $('#taskList li[data-id='+ id +'] span').text(data.text);
 
-                    });
+                        });
+                    }
                 });
             });
             

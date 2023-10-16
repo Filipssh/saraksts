@@ -89,3 +89,20 @@ iframe, #fons{
 #filter select{
     max-width: fit-content;
 }
+
+#edit-nosaukums img{
+    width: 0.5em;
+    transition: scale 200ms;
+}
+
+#edit-nosaukums{
+    background: none;
+    border: none;
+}
+#edit-nosaukums:hover img{
+    scale: 1.3;
+}
+
+#taskList .list-group-item .text-decoration-line-through{
+    color: #a0a0a0;
+}
