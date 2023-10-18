@@ -36,7 +36,6 @@
                     <th scope="col">Tel. nr.</th>
                     <th scope="col">Loma</th>
                     <th scope="col">Rediģēt</th>
-                    <th scope="col">Dzēst</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,8 +45,12 @@
                         <td><?php echo htmlspecialchars($lietotajs->epasts);?></td>
                         <td><?php echo htmlspecialchars($lietotajs->tel_nr);?></td>
                         <td><?php echo htmlspecialchars($lietotajs->loma);?></td>
-                        <td><button class="btn btn-primary">rediģēt</button></td>
-                        <td><button class="btn btn-danger">dzēst</button></td>
+                        <td>
+                            <a href="user?username=<?php echo htmlspecialchars($lietotajs->lietotajvards);?>" 
+                            class="btn btn-primary">
+                                rediģēt
+                            </a>
+                        </td>
                     </tr>
                 <?php endwhile; ?>
             </tbody>
