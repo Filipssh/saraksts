@@ -6,10 +6,10 @@
         header("Location: ../login");
     }
     if($_SESSION['role'] != 'admin'){
-        header("Location: ../login");
+        header("Location: ../");
     }
     $lietotaji = $datubaze->query('
-        SELECT lietotajvards, epasts, tel_nr, loma
+        SELECT lietotajvards, epasts, tel_nr, loma, registrejies
         FROM lietotajs
     ');
 ?>
@@ -35,6 +35,7 @@
                     <th scope="col">E-pasts</th>
                     <th scope="col">Tel. nr.</th>
                     <th scope="col">Loma</th>
+                    <th scope="col">Reģistrācijas datums</th>
                     <th scope="col">Rediģēt</th>
                 </tr>
             </thead>
@@ -45,6 +46,9 @@
                         <td><?php echo htmlspecialchars($lietotajs->epasts);?></td>
                         <td><?php echo htmlspecialchars($lietotajs->tel_nr);?></td>
                         <td><?php echo htmlspecialchars($lietotajs->loma);?></td>
+                        <td>
+                            <?php echo date_format(date_create($lietotajs->registrejies), "d.m.Y H:i");?>
+                        </td>
                         <td>
                             <a href="user?username=<?php echo htmlspecialchars($lietotajs->lietotajvards);?>" 
                             class="btn btn-primary">

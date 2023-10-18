@@ -3,10 +3,10 @@
     include_once "../../../../private/connection.php";
 
     if(empty($_SESSION['username'])){
-        header("Location: login");
+        header("Location: ../login");
     }
     if($_SESSION['role'] != 'admin'){
-        header("Location: ../login");
+        header("Location: ../");
     }
 ?>
 <!DOCTYPE html>

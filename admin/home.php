@@ -6,7 +6,7 @@
         header("Location: ../login");
     }
     if($_SESSION['role'] != 'admin'){
-        header("Location: ../login");
+        header("Location: ../");
     }
 
     if(isset($_POST['delete'])){
