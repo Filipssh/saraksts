@@ -1,9 +1,0 @@
-Salīdzinājumi, ko katrā datumā esam izdarījuši, lai redzētu, kas ir mainījies.
-
-2.okt   https://github.com/Filipssh/saraksts/compare/ae4914c...95a16b6
-4.okt   https://github.com/Filipssh/saraksts/compare/95a16b6...6575d01
-7.okt   https://github.com/Filipssh/saraksts/compare/6575d01...577bca4
-9.okt   https://github.com/Filipssh/saraksts/compare/577bca4...cc7d1d6
-11.okt  https://github.com/Filipssh/saraksts/compare/cc7d1d6...2879690
-14.okt  https://github.com/Filipssh/saraksts/compare/2879690...5859a29
-16.okt  https://github.com/Filipssh/saraksts/compare/5859a29...main
