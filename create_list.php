@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once $_SERVER['DOCUMENT_ROOT'] . '../private/connection.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../private/connection.php';
 
     // ja lietotājs nav autorizējies, tad pārvirzām uz autorizācijas lapu
     if(empty($_SESSION['username'])){
