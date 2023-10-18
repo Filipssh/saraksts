@@ -1,7 +1,6 @@
 <?php 
     session_start();
-# https://github.com/Filipssh/saraksts/commit/95a16b6bddc76f398bedb84777e2fd45b9889221
-    require_once "../../../private/connection.php";
+    require_once $_SERVER['DOCUMENT_ROOT'] . '../private/connection.php';
 
     if(isset($_SESSION['username'])){
         header("Location: home");
