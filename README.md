@@ -11,6 +11,7 @@ Projekts tika veidots uz XAMPP servera:
   `<?php $datubaze = new mysqli('localhost','root','','saraksts');`
 - Izveido datubāzi `saraksts`, izmantojot izveides skriptus no [db/datubaze.sql](db/datubaze.sql)
   - Izveides skripts ir papildināts ar vienu lietotāju 'admin', ar paroli 'admin'
+- paša projekta failus jāievieto `C:\xampp\htdocs`
 
 ## Salīdzinošie skati, kuros var apskatīt, kas kurā datumā tika izstrādāts.
 2.okt   https://github.com/Filipssh/saraksts/compare/ae4914c...95a16b6
