@@ -2,9 +2,10 @@
 CREATE TABLE lietotajs(
     lietotajvards varchar(30) NOT NULL PRIMARY KEY,
     parole varchar(255) NOT NULL,
-    epasts varchar(30) NOT NULL,
+    epasts varchar(50) NOT NULL,
     tel_nr varchar(15),
-    loma varchar(15)
+    loma varchar(15),
+    registrejies datetime DEFAULT current_timestamp()
 );
 # saraksts
 CREATE TABLE saraksts(
@@ -23,3 +24,6 @@ CREATE TABLE ieraksts(
     PRIMARY KEY (id),
     FOREIGN KEY (saraksts_id) REFERENCES saraksts(id)
 );
+
+INSERT INTO `lietotajs` (`lietotajvards`, `parole`, `epasts`, `tel_nr`, `loma`, `registrejies`) VALUES
+('admin', '$argon2i$v=19$m=65536,t=4,p=1$b2VXY3JXeS9JQWZhTlVVaQ$QVk44orlMnT680242ub7icRjdi4oFyvEY1eqpxPWIE4', 'admin@admin.lv', '12345678', 'admin', '2023-10-18 20:41:23');
